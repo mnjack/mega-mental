@@ -15,7 +15,7 @@
 - ✅ TypeScript throughout
 - ✅ Tailwind CSS styling
 - ✅ Vercel Postgres database integration
-- ✅ Full authentication system
+- ✅ Personal use (no authentication needed)
 
 ### 2. Claude AI Integration
 - ✅ Anthropic Claude 3.5 Sonnet API
@@ -26,8 +26,7 @@
 - ✅ Streaming support ready (can be enabled)
 
 ### 3. User Features
-- ✅ User registration and login
-- ✅ Secure password hashing (bcrypt)
+- ✅ Direct access (no login required)
 - ✅ Daily check-in system (mood, energy, anxiety, focus, sleep)
 - ✅ Real-time chat interface
 - ✅ Conversation history storage
@@ -51,8 +50,6 @@
 - ✅ Wins table
 
 ### 6. API Endpoints
-- ✅ `/api/auth/register` - User registration
-- ✅ `/api/auth/login` - User login
 - ✅ `/api/chat` - Main chat interface (POST & GET)
 - ✅ `/api/checkin` - Daily check-ins (POST & GET)
 - ✅ `/api/tasks/breakdown` - Task breakdown with AI
@@ -68,11 +65,11 @@
 
 ## 📊 Project Statistics
 
-- **Total Files Created:** 27+
-- **Lines of Code:** ~9,600+
-- **TypeScript Files:** 11
+- **Total Files Created:** 25+
+- **Lines of Code:** ~9,200+
+- **TypeScript Files:** 9
 - **React Components:** 2 (page.tsx, dashboard/page.tsx)
-- **API Routes:** 5
+- **API Routes:** 3
 - **Database Tables:** 6
 - **System Prompt Size:** ~15,000 tokens
 
@@ -155,9 +152,6 @@ The system prompt includes evidence-based techniques from:
 mega-mental/
 ├── app/
 │   ├── api/
-│   │   ├── auth/
-│   │   │   ├── login/route.ts
-│   │   │   └── register/route.ts
 │   │   ├── chat/route.ts
 │   │   ├── checkin/route.ts
 │   │   └── tasks/
@@ -166,10 +160,9 @@ mega-mental/
 │   │   └── page.tsx (main app interface)
 │   ├── globals.css
 │   ├── layout.tsx
-│   └── page.tsx (landing/login page)
+│   └── page.tsx (auto-redirects to dashboard)
 │
 ├── lib/
-│   ├── auth.ts (authentication utilities)
 │   ├── claude.ts (Claude API integration)
 │   └── db.ts (database operations)
 │
@@ -253,9 +246,7 @@ MERIDIAN considers:
 
 Before deploying to production, test:
 
-- [ ] User registration
-- [ ] User login
-- [ ] Logout
+- [ ] App loads and redirects to dashboard
 - [ ] Daily check-in saves
 - [ ] Chat messages send/receive
 - [ ] Claude responses are contextual
@@ -297,10 +288,10 @@ Before deploying to production, test:
    - Mood boost tracking
    - Celebration prompts
 
-6. **NextAuth.js Integration**
-   - Proper session management
-   - OAuth providers (Google, GitHub)
-   - Better security
+6. **Multi-User Support** (if needed in future)
+   - User authentication
+   - Session management
+   - Multiple user accounts
 
 7. **Rate Limiting**
    - Prevent API abuse
@@ -317,16 +308,15 @@ Before deploying to production, test:
 ### Current State
 
 ✅ **Good:**
-- Passwords hashed with bcrypt
 - API key server-side only
 - Database credentials in environment variables
 - HTTPS enforced (Vercel default)
+- Personal use (single hardcoded user ID)
 
-⚠️ **For Production:**
-- Implement NextAuth.js for sessions
+⚠️ **For Production (if scaling to multiple users):**
+- Add authentication system
 - Add rate limiting
 - Add CSRF protection
-- Implement proper JWT
 - Add input sanitization
 - Set up error monitoring (Sentry)
 
@@ -346,15 +336,11 @@ Before deploying to production, test:
 - Connection pooling
 - Easy setup
 
-### Why bcrypt for Auth?
-- Industry standard
-- Secure password hashing
-- 10 salt rounds (good balance)
-
-### Why Client-Side State?
-- Simpler MVP
-- localStorage for sessions
-- Future: NextAuth.js for production
+### Why No Authentication?
+- Personal use tool
+- Single user (hardcoded ID)
+- Simpler deployment
+- Can add auth later if needed
 
 ### Why No ORM?
 - Direct SQL is faster

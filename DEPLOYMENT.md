@@ -97,12 +97,12 @@ The database tables will be created automatically on first API call. To manually
 2. Click **"Query"** tab
 3. You can run SQL commands here if needed
 
-Or, simply use the app - tables will be created on first user registration!
+Or, simply use the app - tables will be created automatically on first use!
 
 ### 10. Test Your Deployment
 
 1. Click on the deployment URL (e.g., `meridian-xxx.vercel.app`)
-2. Create an account
+2. App will auto-redirect to dashboard (no sign-up needed!)
 3. Complete a check-in
 4. Send a chat message
 5. Try task breakdown
@@ -142,15 +142,14 @@ NEXT_PUBLIC_APP_URL=https://yourapp.vercel.app
 
 ## Post-Deployment Checklist
 
-- [ ] App loads without errors
-- [ ] Can register new account
-- [ ] Can login
+- [ ] App loads and redirects to dashboard
 - [ ] Can complete check-in
 - [ ] Can send chat messages
 - [ ] Claude responses work
 - [ ] Task breakdown works
 - [ ] Check-in data persists
 - [ ] Crisis detection works
+- [ ] Mobile responsive (test on phone)
 
 ---
 
@@ -167,17 +166,17 @@ NEXT_PUBLIC_APP_URL=https://yourapp.vercel.app
 - Check database queries
 - View error logs
 
-### Expected Costs
+### Expected Costs (Personal Use)
 
 **Anthropic API** (with prompt caching):
 - ~$0.50-1.00 per conversation (10 messages)
-- 100 daily users: ~$50/day or ~$1,500/month
+- Personal use (5-10 conversations/day): ~$2.50-10/day
+- **Monthly estimate: ~$75-300/month**
 
 **Vercel:**
-- Hobby plan: Free (with limits)
-- Pro plan: $20/month + usage
+- Hobby plan: Free (sufficient for personal use)
 
-**Total estimated:** ~$1,500-2,000/month for 100+ daily users
+**Total estimated for personal use:** ~$75-300/month
 
 ---
 
@@ -238,27 +237,31 @@ The tables are created automatically on first use. If not:
 
 ## Security Best Practices
 
-### For Production
+### Current Security (Personal Use)
 
-1. **Add Rate Limiting**
+✅ **Already Implemented:**
+- HTTPS enforced (Vercel handles automatically)
+- API key stored server-side only
+- Database credentials in environment variables
+- Personal use (single user, no authentication needed)
+
+### If Scaling to Multiple Users (Future)
+
+1. **Add Authentication**
+   - Implement NextAuth.js
+   - Add session management
+   - User registration/login
+
+2. **Add Rate Limiting**
    - Prevent API abuse
    - Use Vercel Edge Config or Redis
-
-2. **Implement Proper Auth**
-   - Switch to NextAuth.js
-   - Add session management
-   - Implement CSRF protection
 
 3. **Add Input Validation**
    - Sanitize all user inputs
    - Use Zod for validation
    - Prevent SQL injection
 
-4. **Enable HTTPS Only**
-   - Vercel handles this automatically
-   - Force HTTPS redirects
-
-5. **Monitor & Alert**
+4. **Monitor & Alert**
    - Set up error tracking (Sentry)
    - Monitor API costs
    - Set budget alerts
@@ -266,6 +269,8 @@ The tables are created automatically on first use. If not:
 ---
 
 ## Scaling Considerations
+
+*Note: For personal use, you won't need these. Include if planning to expand to multiple users.*
 
 ### If you exceed 1000 daily users:
 

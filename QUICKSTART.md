@@ -80,10 +80,10 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## First Use
 
-1. **Create Account**
-   - Click "Sign Up"
-   - Enter email, password, display name
-   - Click "Sign Up"
+1. **App Auto-Opens**
+   - Visit [http://localhost:3000](http://localhost:3000)
+   - Automatically redirects to dashboard
+   - No sign-up needed!
 
 2. **Complete Check-In**
    - Click "📊 Check-In" button
@@ -211,14 +211,12 @@ SELECT title, breakdown FROM tasks;
 mega-mental/
 ├── app/
 │   ├── api/              # API routes
-│   │   ├── auth/         # Login, register
 │   │   ├── chat/         # Main chat endpoint
 │   │   ├── checkin/      # Daily check-in
 │   │   └── tasks/        # Task breakdown
 │   ├── dashboard/        # Main app interface
-│   └── page.tsx          # Landing/login page
+│   └── page.tsx          # Auto-redirects to dashboard
 ├── lib/
-│   ├── auth.ts           # Authentication logic
 │   ├── claude.ts         # Claude API integration
 │   └── db.ts             # Database operations
 ├── prompts/
@@ -259,15 +257,13 @@ See `DEPLOYMENT.md` for Vercel deployment guide!
 
 Before deploying, test:
 
-- [ ] User registration works
-- [ ] Login works
+- [ ] App loads and redirects to dashboard
 - [ ] Check-in saves and loads
 - [ ] Chat messages send and receive
 - [ ] Claude responses are contextual
 - [ ] Task breakdown generates valid JSON
 - [ ] Crisis keywords trigger alert
 - [ ] Conversation history persists
-- [ ] Logout works
 - [ ] Mobile responsive (resize browser)
 
 ---
