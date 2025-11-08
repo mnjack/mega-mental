@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
+// Personal use - hardcoded user ID (no authentication needed)
+const PERSONAL_USER_ID = "personal-user-001";
+
 export default function Dashboard() {
-  const router = useRouter();
-  const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,25 +26,13 @@ export default function Dashboard() {
   const [sleepHours, setSleepHours] = useState<number>(7);
 
   useEffect(() => {
-    // Check if user is logged in
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      router.push("/");
-      return;
-    }
-    setUser(JSON.parse(storedUser));
-
-    // Load chat history
+    // Load chat history on mount
     loadMessages();
-  }, [router]);
+  }, []);
 
   const loadMessages = async () => {
     try {
-      const storedUser = localStorage.getItem("user");
-      if (!storedUser) return;
-
-      const user = JSON.parse(storedUser);
-      const response = await fetch(`/api/chat?userId=${user.id}&limit=20`);
+      const response = await fetch(`/api/chat?userId=${PERSONAL_USER_ID}&limit=20`);
       const data = await response.json();
 
       if (data.messages) {
@@ -70,7 +58,7 @@ export default function Dashboard() {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || loading || !user) return;
+    if (!input.trim() || loading) return;
 
     const userMessage = input.trim();
     setInput("");
@@ -84,7 +72,7 @@ export default function Dashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage,
-          userId: user.id,
+          userId: PERSONAL_USER_ID,
         }),
       });
 
@@ -119,14 +107,13 @@ export default function Dashboard() {
 
   const handleCheckIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
 
     try {
       const response = await fetch("/api/checkin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: user.id,
+          userId: PERSONAL_USER_ID,
           moodScore,
           energyLevel,
           anxietyScore,
@@ -164,14 +151,6 @@ export default function Dashboard() {
     setInput(message);
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
       {/* Crisis Alert */}
@@ -202,24 +181,15 @@ export default function Dashboard() {
               MERIDIAN
             </h1>
             <p className="text-sm text-gray-600">
-              Hello, {user.display_name || user.email}
+              Your Personal Executive Function Coach
             </p>
           </div>
-          <div className="flex gap-2">
+          <div>
             <button
               onClick={() => setShowCheckIn(!showCheckIn)}
               className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors"
             >
               📊 Check-In
-            </button>
-            <button
-              onClick={() => {
-                localStorage.removeItem("user");
-                router.push("/");
-              }}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800"
-            >
-              Logout
             </button>
           </div>
         </div>
